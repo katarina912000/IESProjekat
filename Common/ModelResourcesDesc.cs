@@ -865,28 +865,48 @@ namespace FTN.Common
 		# region Initialization of metadata
 
 		private void InitializeTypeIdsInInsertOrder()
-		{			
-			typeIdsInInsertOrder.Add(ModelCode.BASEVOLTAGE);
-			typeIdsInInsertOrder.Add(ModelCode.LOCATION);
-			typeIdsInInsertOrder.Add(ModelCode.POWERTR);
-			typeIdsInInsertOrder.Add(ModelCode.POWERTRWINDING);
-			typeIdsInInsertOrder.Add(ModelCode.WINDINGTEST);			
-		}
+		{
+            //ovde dodajemo sve konkretne klase prvo
+            typeIdsInInsertOrder.Add(ModelCode.PROTECTEDSWITCH);
+            typeIdsInInsertOrder.Add(ModelCode.REGULARINTERVALSCHEDULE);
+            typeIdsInInsertOrder.Add(ModelCode.CURVE);
+            typeIdsInInsertOrder.Add(ModelCode.OUTAGESCHEDULE);
+            typeIdsInInsertOrder.Add(ModelCode.IRREGULARTIMEPOINT);
+            typeIdsInInsertOrder.Add(ModelCode.REGULARTIMEPOINT);
+            typeIdsInInsertOrder.Add(ModelCode.CURVEDATA);
 
-		private void InitializeNotSettablePropertyIds()
+
+
+            //typeIdsInInsertOrder.Add(ModelCode.BASEVOLTAGE);
+            //typeIdsInInsertOrder.Add(ModelCode.LOCATION);
+            //typeIdsInInsertOrder.Add(ModelCode.POWERTR);
+            //typeIdsInInsertOrder.Add(ModelCode.POWERTRWINDING);
+            //typeIdsInInsertOrder.Add(ModelCode.WINDINGTEST);			
+        }
+
+        private void InitializeNotSettablePropertyIds()
 		{			
+			
+			//ovde dodajemo liste referenci
+
 			notSettablePropertyIds.Add(ModelCode.IDOBJ_GID);
-			notSettablePropertyIds.Add(ModelCode.BASEVOLTAGE_CONDEQS);
-			notSettablePropertyIds.Add(ModelCode.LOCATION_PSRS);
-			notSettablePropertyIds.Add(ModelCode.POWERTRWINDING_TESTS);
-            notSettablePropertyIds.Add(ModelCode.POWERTR_WINDINGS);	
-		}
-	
-		# endregion Initialization of metadata
+            notSettablePropertyIds.Add(ModelCode.CURVE_CURVEDATAS);
+            notSettablePropertyIds.Add(ModelCode.REGULARINTERVALSCHEDULE_TIMEPOINTS);
+            notSettablePropertyIds.Add(ModelCode.PSR_OUTAGESCHEDULES);
+            notSettablePropertyIds.Add(ModelCode.IRREGULARINTERVALSCHEDULE_TIMEPOINTS);
 
-		# region Switching between enums and values
 
-		private List<ModelCode> SwitchLongsToModelCodes(List<long> longValues)
+            //notSettablePropertyIds.Add(ModelCode.BASEVOLTAGE_CONDEQS);
+            //notSettablePropertyIds.Add(ModelCode.LOCATION_PSRS);
+            //notSettablePropertyIds.Add(ModelCode.POWERTRWINDING_TESTS);
+            //         notSettablePropertyIds.Add(ModelCode.POWERTR_WINDINGS);	
+        }
+
+        #endregion Initialization of metadata
+
+        #region Switching between enums and values
+
+        private List<ModelCode> SwitchLongsToModelCodes(List<long> longValues)
 		{
 			List<ModelCode> result = new List<ModelCode>();
 

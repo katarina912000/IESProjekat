@@ -1,25 +1,21 @@
-﻿using System;
+﻿using FTN.Common;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
-using System.Xml;
-using FTN.Common;
 
-namespace FTN.Services.NetworkModelService.DataModel.Core
+namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
-	public class ConductingEquipment : Equipment
-	{		
-		
-		public ConductingEquipment(long globalId) : base(globalId) 
-		{
-		}
+    public class ProtectedSwitch : Switch
+    {
+        public ProtectedSwitch(long globalId) : base(globalId)
+        {
+        }
         public override bool Equals(object obj)
         {
             if (base.Equals(obj))
             {
-                ConductingEquipment x = (ConductingEquipment)obj;
+                ProtectedSwitch x = (ProtectedSwitch)obj;
                 return true;
             }
             else
@@ -28,11 +24,10 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             }
         }
 
-
         public override int GetHashCode()
-		{
-			return base.GetHashCode();
-		}
+        {
+            return base.GetHashCode();
+        }
 
         #region IAccess implementation
 

@@ -1,75 +1,76 @@
-﻿using System;
+﻿using FTN.Common;
+using FTN.Services.NetworkModelService.DataModel.Core;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
-using FTN.Common;
 
-
-
-namespace FTN.Services.NetworkModelService.DataModel.Core
+namespace FTN.Services.NetworkModelService.DataModel.IES_Projects
 {
-    public class PowerSystemResource : IdentifiedObject
+    public class IrregularIntervalSchedule : BasicIntervalSchedule
     {
-        private List<long> outageSchedules;
 
-        public List<long> OutageSchedules { get => outageSchedules; set => outageSchedules = value; }
+        private List<long> timePoints = new List<long>();
 
-        public PowerSystemResource(long globalId)
-            : base(globalId)
+        public IrregularIntervalSchedule(long globalId) : base(globalId)
         {
         }
-
+        public List<long> TimePoints
+        {
+            get { return timePoints; }
+            set { timePoints = value; }
+        }
         public override bool Equals(object obj)
         {
-            var resource = obj as PowerSystemResource;
-            return resource != null &&
-                   base.Equals(obj) &&
-                   EqualityComparer<List<long>>.Default.Equals(outageSchedules, resource.outageSchedules);
+            if (base.Equals(obj))
+            {
+                IrregularIntervalSchedule x = (IrregularIntervalSchedule)obj;
+                return ((CompareHelper.CompareLists(x.timePoints, this.timePoints)));
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
+
         #region IAccess implementation
+
         public override bool HasProperty(ModelCode t)
         {
             switch (t)
             {
-                case ModelCode.PSR_OUTAGESCHEDULES:
-               
+                case ModelCode.IRREGULARINTERVALSCHEDULE_TIMEPOINTS:
                     return true;
+
                 default:
                     return base.HasProperty(t);
             }
         }
 
-        public override void GetProperty(Property property)
+        public override void GetProperty(Property prop)
         {
-            switch (property.Id)
+            switch (prop.Id)
             {
-                case ModelCode.PSR_OUTAGESCHEDULES:
-                    property.SetValue(outageSchedules);
+                case ModelCode.IRREGULARINTERVALSCHEDULE_TIMEPOINTS:
+                    prop.SetValue(timePoints);
                     break;
-
-              
-
                 default:
-                    base.GetProperty(property);
+                    base.GetProperty(prop);
                     break;
             }
         }
 
         public override void SetProperty(Property property)
         {
-           
-                    base.SetProperty(property);
-                 
+            base.SetProperty(property);
         }
 
-        #endregion IAccess implementation
+        #endregion IAccess implementation	
 
         #region IReference implementation
 
@@ -77,15 +78,15 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             get
             {
-                return outageSchedules.Count > 0 || base.IsReferenced;
+                return timePoints.Count > 0 || base.IsReferenced;
             }
         }
 
         public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
         {
-            if (outageSchedules != null && outageSchedules.Count > 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
+            if (timePoints != null && timePoints.Count > 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
             {
-                references[ModelCode.PSR_OUTAGESCHEDULES] = outageSchedules.GetRange(0, outageSchedules.Count);
+                references[ModelCode.IRREGULARINTERVALSCHEDULE_TIMEPOINTS] = timePoints.GetRange(0, timePoints.Count);
             }
 
             base.GetReferences(references, refType);
@@ -95,8 +96,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             switch (referenceId)
             {
-                case ModelCode.OUTAGESCHEDULE_POWERSYSTEMRESOURCE:
-                    outageSchedules.Add(globalId);
+                case ModelCode.IRREGULARTIMEPOINT_INTERVALSCHEDULE:
+                    timePoints.Add(globalId);
                     break;
 
                 default:
@@ -109,11 +110,11 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             switch (referenceId)
             {
-                case ModelCode.OUTAGESCHEDULE_POWERSYSTEMRESOURCE:
+                case ModelCode.IRREGULARTIMEPOINT_INTERVALSCHEDULE:
 
-                    if (outageSchedules.Contains(globalId))
+                    if (timePoints.Contains(globalId))
                     {
-                        outageSchedules.Remove(globalId);
+                        timePoints.Remove(globalId);
                     }
                     else
                     {
@@ -128,9 +129,6 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             }
         }
 
-
-
-        #endregion IReference implementation		
+        #endregion IReference implementation	
     }
 }
-

@@ -244,20 +244,33 @@ namespace FTN.Services.NetworkModelService
 				delta.SortOperations();
 
 				applyingStarted = true;
+                ResourceDescription thisIsThatNullObject =new ResourceDescription();
 
-				foreach (ResourceDescription rd in delta.InsertOperations)
+                foreach (ResourceDescription rd in delta.InsertOperations)
 				{
 					InsertEntity(rd);
+                    if (rd == null)
+                    {
+                        thisIsThatNullObject = rd;
+                    }
 				}
 
 				foreach (ResourceDescription rd in delta.UpdateOperations)
 				{
 					UpdateEntity(rd);
-				}
+                    if (rd == null)
+                    {
+                        thisIsThatNullObject = rd;
+                    }
+                }
 
 				foreach (ResourceDescription rd in delta.DeleteOperations)
 				{
-					DeleteEntity(rd);
+                    if (rd == null)
+                    {
+                        thisIsThatNullObject = rd;
+                    }
+                    DeleteEntity(rd);
 				}				 				
 
 			}

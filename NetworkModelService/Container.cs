@@ -11,7 +11,7 @@ using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
 using FTN.Services.NetworkModelService.DataModel.Wires;
 using FTN.Services.NetworkModelService.DataModel;
-
+using FTN.Services.NetworkModelService.DataModel.IES_Projects;
 
 namespace FTN.Services.NetworkModelService
 {		
@@ -122,24 +122,29 @@ namespace FTN.Services.NetworkModelService
 			IdentifiedObject io = null;			
 			switch ((DMSType)type)
 			{
-				case DMSType.BASEVOLTAGE:
-					io = new BaseVoltage(globalId);
+				case DMSType.CURVE:
+					io = new Curve(globalId);
 					break;
+				case DMSType.CURVEDATA:
+					io = new CurveData(globalId);
+					break;
+				case DMSType.REGULARTIMEPOINT:
+					io = new RegularTimePoint(globalId);
+					break;
+				case DMSType.IRREGULARTIMEPOINT:
+					io = new IrregularTimePoint(globalId);
+					break;
+				case DMSType.PROTECTEDSWITCH:
+					io = new ProtectedSwitch(globalId);
+					break;
+                case DMSType.OUTAGESCHEDULE:
+                    io = new OutageSchedule(globalId);
+                    break;
+                case DMSType.REGULARINTERVALSCHEDULE:
+                    io = new RegularIntervalSchedule(globalId);
+                    break;
 
-				case DMSType.LOCATION:
-					io = new Location(globalId);
-					break;
-				case DMSType.POWERTR:
-					io = new PowerTransformer(globalId);
-					break;
-				case DMSType.POWERTRWINDING:
-					io = new TransformerWinding(globalId);
-					break;
-				case DMSType.WINDINGTEST:
-					io = new WindingTest(globalId);
-					break;			
-
-				default:					
+                default:					
 					string message = String.Format("Failed to create entity because specified type ({0}) is not supported.", type);
 					CommonTrace.WriteTrace(CommonTrace.TraceError, message);
 					throw new Exception(message);					
